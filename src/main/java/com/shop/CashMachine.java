@@ -23,7 +23,6 @@ class PaymentSystem {
 
 class BarcodeScanner {
     // Public
-
     /**
      * @return Артикул (идентификатор)
      * отсканированного товара
@@ -48,7 +47,7 @@ public class CashMachine {
     public CashMachine() {
         barcodeScanner = new BarcodeScanner();
         paymentSystem = new PaymentSystem();
-        mainServerConnection = new MainServerConnection();
+        mainServerConnection = MainServerConnection.getConnection();
     }
     public void startOrder() {}
     public void endOrder() {}
