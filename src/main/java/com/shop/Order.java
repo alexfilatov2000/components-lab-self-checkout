@@ -30,6 +30,7 @@ public class Order {
     }
 
     public int getPrice() {
+
         return price;
     }
 
@@ -38,6 +39,6 @@ public class Order {
      * стоимостью покупки
      */
     public String getBill() {
-        return "";
+
     }
 }

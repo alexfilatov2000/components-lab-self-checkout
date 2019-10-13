@@ -11,7 +11,7 @@ public class Admin {
     }
 
     public boolean logLikeAdmim(String login, String password) {
-        return (login == this.login && password == this.password);
+        return (login.equalsIgnoreCase(this.login) && password.equalsIgnoreCase(this.password));
     }
 
     public void scan(Product product) {

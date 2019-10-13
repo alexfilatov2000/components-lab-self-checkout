@@ -18,7 +18,14 @@ class PaymentSystem {
      */
 
     // Public
-    public void pay(int sum) {}
+    public void pay(Order finalOrder,Client client) throws PaymentException {
+        if(client.getClientCash()>=finalOrder.getPrice()){
+            client.setClientCash(client.getClientCash()-finalOrder.getPrice());
+        }
+        else {
+            throw new PaymentException();
+        }
+    }
 }
 
 class BarcodeScanner {
@@ -28,9 +35,7 @@ class BarcodeScanner {
      * отсканированного товара
      */
     public int scan(Product product) {
-        int id = 0;
-        // Сканируем код и получаем id
-        return id;
+        return product.getId();
     }
 }
 
