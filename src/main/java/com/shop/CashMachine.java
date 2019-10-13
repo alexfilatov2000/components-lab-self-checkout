@@ -27,7 +27,7 @@ class BarcodeScanner {
      * @return Артикул (идентификатор)
      * отсканированного товара
      */
-    public int scan() {
+    public int scan(Product product) {
         int id = 0;
         // Сканируем код и получаем id
         return id;
@@ -49,6 +49,7 @@ public class CashMachine {
         paymentSystem = new PaymentSystem();
         mainServerConnection = MainServerConnection.getConnection();
     }
-    public void startOrder() {}
+
+    public void startOrder(Product product) {}
     public void endOrder() {}
 }
