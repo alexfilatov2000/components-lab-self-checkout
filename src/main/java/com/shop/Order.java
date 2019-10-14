@@ -10,11 +10,16 @@ public class Order {
     private int price;
 
     // Public
-    public Order(MainServerConnection msc) {
+    public Order() {
         products = new HashMap();
         price = 0;
     }
 
+    /**
+     * @param product - Продукт для добавления
+     * @desc Добавление одного продукта в
+     * текущую покупку
+     */
     public void addProduct(Product product) {
         if (products.containsKey(product)) {
             products.put(product, products.get(product) + 1);
@@ -24,6 +29,11 @@ public class Order {
         price += product.getPrice();
     }
 
+    /**
+     * @param product - Продукт для удалений
+     * @desc Удаление одного продукта из
+     * текущей покупки
+     */
     public void removeProduct(Product product) {
         if (products.get(product) == 1) {
             products.remove(product);
@@ -33,14 +43,22 @@ public class Order {
         price -= product.getPrice();
     }
 
-    public Set<Product> getAllProducts() { return products.keySet(); }
-
-    public int getPrice() { return price; }
-
+    /**
+     * Очистить покупку
+     */
     public void clearOrder() {
-        products = null;
+        products = new HashMap();
         price = 0;
     }
+
+    /**
+     * @return Логическое значение, пустая
+     * ли покупка (есть ли какие-то товары)
+     */
+    public boolean isEmpty() {
+        return products.isEmpty();
+    }
+
     /**
      * @return Чек с купленными товарами и
      * стоимостью покупки
@@ -49,7 +67,7 @@ public class Order {
         String result = "";
 
         //Добавяєм продукти і цену через \n
-        Set<Product> keys = getAllProducts();
+        Set<Product> keys = products.keySet();
         for (Product prod : keys) {
             result += prod.getName() + " * ";
             result += products.get(prod) + ";\n";
@@ -58,5 +76,17 @@ public class Order {
         result += "Price: " + price;
 
         return result;
+    }
+
+    /**
+     * @return Сумму покупки
+     */
+    public int getPrice() { return price; }
+
+    /**
+     * @return Map с товарами
+     */
+    public Map<Product, Integer> getProducts() {
+        return new HashMap(products);
     }
 }

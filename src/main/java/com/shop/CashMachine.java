@@ -1,7 +1,7 @@
 package com.shop;
 
-import com.exception.AmountException;
-import com.exception.DataBaseException;
+import com.exception.DatabaseException;
+import com.exception.OrderException;
 import com.exception.PaymentException;
 
 /**
@@ -25,7 +25,7 @@ class PaymentSystem {
             client.setClientCash(client.getClientCash()-finalOrder.getPrice());
         }
         else {
-            throw new PaymentException();
+            throw new PaymentException("Balance is low");
         }
     }
 }
@@ -36,10 +36,10 @@ class BarcodeScanner {
      * @return Артикул (идентификатор)
      * отсканированного товара
      */
-    public Product scan(int id, MainServerConnection msc) throws DataBaseException {
+    public Product scan(int id, MainServerConnection msc) throws DatabaseException {
         try {
             msc.getProduct(id);
-        } catch (DataBaseException e) {
+        } catch (DatabaseException e) {
             e.printStackTrace();
         }
         return msc.getProduct(id);
@@ -60,15 +60,14 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(int id) throws DataBaseException {
-        currentOrder.addProduct(barcodeScanner.scan(id, mainServerConnection));
+    public void startOrder(int id) {
+        currentOrder = new Order();
     }
 
-    public void accessToAll(Admin admin) {
-        //Треба менюшку замутити тут тіпа можна міняти БД, настроювати апарат міняти бумагу і т.д.
-    }
-
-    public void endOrder(Client client) {
+    public void endOrder(Client client) throws OrderException {
+        if (currentOrder == null) {
+            throw new OrderException("No current order. Please call startOrder before ending it");
+        }
         try {
             paymentSystem.pay(currentOrder, client);
         } catch (PaymentException e) {
@@ -76,10 +75,25 @@ public class CashMachine {
         }
         try {
             mainServerConnection.reduce(currentOrder);
-        } catch (AmountException e) {
+        } catch (DatabaseException e) {
             e.printStackTrace();
+        } finally {
+            currentOrder = null;
         }
+
         System.out.println(currentOrder.getBill());
+
         currentOrder.clearOrder();
+    }
+
+    public void scan(int id) throws DatabaseException, OrderException {
+        if (currentOrder == null) {
+            throw new OrderException("No current order. Please call startOrder before scanning");
+        }
+        currentOrder.addProduct(barcodeScanner.scan(id, mainServerConnection));
+    }
+
+    public void accessToAll(Admin admin) {
+        //Треба менюшку замутити тут тіпа можна міняти БД, настроювати апарат міняти бумагу і т.д.
     }
 }

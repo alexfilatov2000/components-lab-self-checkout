@@ -1,10 +1,8 @@
 package com.shop;
 
-import com.exception.AmountException;
-import com.exception.DataBaseException;
+import com.exception.DatabaseException;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * host - условный IP главного сервера
@@ -43,7 +41,7 @@ public class    MainServerConnection {
         //Адмін удаляє товари
     }
 
-    private void primaryFilling() {
+    private void primaryFill() {
         //Визивається в методі КешМашини accessToAll(), первоначальна настройка касового апарата.
     }
 
@@ -55,11 +53,11 @@ public class    MainServerConnection {
         return connection;
     }
 
-    public Product getProduct(int id) throws DataBaseException {
+    public Product getProduct(int id) throws DatabaseException {
         if (products.containsKey(id)) {
             return products.get(id);
         } else {
-            throw new DataBaseException();
+            throw new DatabaseException();
         }
     }
 
@@ -67,13 +65,14 @@ public class    MainServerConnection {
         return productsAmount.get(products.get(id)); // получаем amount продукта  по его айдишнику
     }
 
-    public void reduce(Order currentOrder) throws AmountException {
-        Set<Product> removeProd = currentOrder.getAllProducts();
-        for (Product product : removeProd) {
-            if (productsAmount.get(product) == 0) {
-                throw new AmountException();
+    public void reduce(Order currentOrder) throws DatabaseException {
+        Map<Product, Integer> products = currentOrder.getProducts();
+        for (Product product : products.keySet()) {
+            int amount = products.get(product);
+            if (productsAmount.get(product) < amount) {
+                throw new DatabaseException("No such product in the stock");
             } else {
-                productsAmount.put(product, productsAmount.get(product) - 1);
+                productsAmount.put(product, productsAmount.get(product) - amount);
             }
         }
     }

@@ -1,27 +1,44 @@
 package com.shop;
 
-import com.exception.DataBaseException;
+import com.exception.DatabaseException;
+import com.exception.OrderException;
 
 public class Client {
     //Private
+    private int cash;
+
     //Public
-    private long clientCash;
-
-    public Client(long clientCash) {
-        this.clientCash=clientCash;
+    public Client(int cash) {
+        this.cash = cash;
     }
 
-    public long getClientCash() {
-        return clientCash;
+    public int getClientCash() {
+        return cash;
     }
 
-    public void setClientCash(long clientCash) {
-        this.clientCash = clientCash;
+    public void setClientCash(int cash) {
+        this.cash = cash;
     }
 
-    public void scan(int id, CashMachine cashMachine) throws DataBaseException {
+    public void startOrder(int id, CashMachine cashMachine) {
         cashMachine.startOrder(id);
     }
 
-    public void pay(Client client, CashMachine cashMachine) { cashMachine.endOrder(client); }
+    public void endOrder(Client client, CashMachine cashMachine) {
+        try {
+            cashMachine.endOrder(client);
+        } catch (OrderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void scan(int id, CashMachine cashMachine) {
+        try {
+            cashMachine.scan(id);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        } catch (OrderException e) {
+            e.printStackTrace();
+        }
+    }
 }
