@@ -6,9 +6,9 @@ import java.util.Set;
 
 public class Order {
     // Private
-    private Map<Integer, Integer> products;
+    private Map<Product, Integer> products;
     private int price;
-    private Set<Integer> getAllIds() { return products.keySet(); }
+    private Set<Product> getAllProducts() { return products.keySet(); }
 
     // Public
     public Order(MainServerConnection msc) {
@@ -16,22 +16,22 @@ public class Order {
         price = 0;
     }
 
-    public void addProduct(int id, MainServerConnection msc) {
-        if (products.containsKey(id)) {
-            products.put(id, products.get(id) + 1);
+    public void addProduct(Product product) {
+        if (products.containsKey(product)) {
+            products.put(product, products.get(product) + 1);
         } else {
-            products.put(id, 1);
+            products.put(product, 1);
         }
-        price += msc.getProduct(id).getPrice();
+        price += product.getPrice();
     }
 
-    public void removeProduct(int id, MainServerConnection msc) {
-        if (products.get(id) == 1) {
-            products.remove(id);
+    public void removeProduct(Product product) {
+        if (products.get(product) == 1) {
+            products.remove(product);
         } else {
-            products.put(id, products.get(id) - 1);
+            products.put(product, products.get(product) - 1);
         }
-        price -= msc.getProduct(id).getPrice();
+        price -= product.getPrice();
     }
 
     public int getPrice() { return price; }
@@ -40,14 +40,14 @@ public class Order {
      * @return Чек с купленными товарами и
      * стоимостью покупки
      */
-    public String getBill(MainServerConnection msc) {
+    public String getBill() {
         String result = "";
 
         //Добавяєм продукти і цену через \n
-        Set<Integer> keys = getAllIds();
-        for (int id : keys) {
-            result += msc.getProduct(id).getName() + " * ";
-            result += products.get(id) + ";\n";
+        Set<Product> keys = getAllProducts();
+        for (Product prod : keys) {
+            result += prod.getName() + " * ";
+            result += products.get(prod) + ";\n";
         }
 
         result += "Price: " + price;

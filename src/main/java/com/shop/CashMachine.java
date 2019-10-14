@@ -34,8 +34,8 @@ class BarcodeScanner {
      * @return Артикул (идентификатор)
      * отсканированного товара
      */
-    public int scan(Product product) {
-        return product.getId();
+    public Product scan(int id, MainServerConnection msc) {
+        return msc.getProduct(id);
     }
 }
 
@@ -55,8 +55,8 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(Product product) {
-        currentOrder.addProduct(barcodeScanner.scan(product), mainServerConnection);
+    public void startOrder(int id) {
+        currentOrder.addProduct(barcodeScanner.scan(id, mainServerConnection));
     }
 
     public void accessToAll(Admin admin) {
@@ -70,6 +70,6 @@ public class CashMachine {
             e.printStackTrace();
         }
         //поменять БД
-        currentOrder.getBill(mainServerConnection);
+        currentOrder.getBill();
     }
 }

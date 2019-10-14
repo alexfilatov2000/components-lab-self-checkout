@@ -17,8 +17,8 @@ public class Client {
         this.clientCash = clientCash;
     }
 
-    public void scan(Product product, CashMachine cashMachine) {
-        cashMachine.startOrder(product);
+    public void scan(int id, CashMachine cashMachine) {
+        cashMachine.startOrder(id);
     }
 
     public void pay(Client client, CashMachine cashMachine) { cashMachine.endOrder(client); }
