@@ -18,8 +18,8 @@ public class Client {
         this.clientCash = clientCash;
     }
 
-    public void scan(Product product) {
-        cashMachine.startOrder(product);
+    public void scan(int id) {
+        cashMachine.startOrder(id);
     }
 
     public void pay(Client client) {

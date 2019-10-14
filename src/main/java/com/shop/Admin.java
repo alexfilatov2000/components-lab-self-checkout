@@ -11,7 +11,9 @@ public class Admin {
         this.password = pass;
     }
 
-    public boolean logLikeAdmim(String login, String password) {
-        return (login.equalsIgnoreCase(this.login) && password.equalsIgnoreCase(this.password));
+    public void logLikeAdmim(Admin admin, String login, String password) {
+        if (login.equalsIgnoreCase(this.login) && password.equalsIgnoreCase(this.password)) {
+            cashMachine.accessToAll(admin);
+        }
     }
 }

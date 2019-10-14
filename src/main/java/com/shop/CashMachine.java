@@ -43,7 +43,7 @@ public class CashMachine {
     // Private
     private final BarcodeScanner barcodeScanner;
     private final PaymentSystem paymentSystem;
-    private final MainServerConnection mainServerConnection;
+    private MainServerConnection mainServerConnection;
     private Order currentOrder;
 
     private void pay() throws PaymentException {}
@@ -55,8 +55,13 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(Product product) {
-        currentOrder.addProduct(product);
+    public void startOrder(int id) {
+
+        currentOrder.addProduct(id, mainServerConnection);
+    }
+
+    public void accessToAll(Admin admin) {
+        //Треба менюшку замутити тут тіпа можна міняти БД, настроювати апарат міняти бумагу і т.д.
     }
 
     public void endOrder(Client client) {
@@ -65,5 +70,7 @@ public class CashMachine {
         } catch (PaymentException e) {
             e.printStackTrace();
         }
+        //поменять БД
+        currentOrder.getBill(mainServerConnection);
     }
 }

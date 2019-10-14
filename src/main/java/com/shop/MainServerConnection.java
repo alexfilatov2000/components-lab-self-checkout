@@ -1,5 +1,8 @@
 package com.shop;
 
+import java.util.Map;
+import java.util.HashMap;
+
 /**
  * host - условный IP главного сервера
  * port - условный открытый порт для
@@ -9,6 +12,7 @@ public class MainServerConnection {
     // Private
     private final String host;
     private final int port;
+    private Map<Product, Integer> products;
 
     private static MainServerConnection connection;
 
@@ -23,6 +27,7 @@ public class MainServerConnection {
     private MainServerConnection() {
         host = "127.0.0.55";
         port = 80;
+        products = new HashMap();
     }
 
     // Public
@@ -31,6 +36,10 @@ public class MainServerConnection {
             connection = new MainServerConnection();
         }
         return connection;
+    }
+
+    public void primaryFilling() {
+        //Визивається в методі КешМашини accessToAll()
     }
 
     public Product getProduct(int id) {
