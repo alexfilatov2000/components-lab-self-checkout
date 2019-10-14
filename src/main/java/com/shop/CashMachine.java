@@ -1,5 +1,6 @@
 package com.shop;
 
+import com.exception.AmountException;
 import com.exception.DataBaseException;
 import com.exception.PaymentException;
 
@@ -73,7 +74,11 @@ public class CashMachine {
         } catch (PaymentException e) {
             e.printStackTrace();
         }
-        //поменять БД
+        try {
+            mainServerConnection.reduce(currentOrder);
+        } catch (AmountException e) {
+            e.printStackTrace();
+        }
         System.out.println(currentOrder.getBill());
         currentOrder.clearOrder();
     }
