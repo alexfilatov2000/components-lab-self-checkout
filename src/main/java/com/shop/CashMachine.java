@@ -55,9 +55,8 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(int id) {
-
-        currentOrder.addProduct(id, mainServerConnection);
+    public void startOrder(Product product) {
+        currentOrder.addProduct(barcodeScanner.scan(product), mainServerConnection);
     }
 
     public void accessToAll(Admin admin) {
