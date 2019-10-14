@@ -8,7 +8,6 @@ public class Order {
     // Private
     private Map<Product, Integer> products;
     private int price;
-    private Set<Product> getAllProducts() { return products.keySet(); }
 
     // Public
     public Order(MainServerConnection msc) {
@@ -34,8 +33,14 @@ public class Order {
         price -= product.getPrice();
     }
 
+    public Set<Product> getAllProducts() { return products.keySet(); }
+
     public int getPrice() { return price; }
 
+    public void clearOrder() {
+        products = null;
+        price = 0;
+    }
     /**
      * @return Чек с купленными товарами и
      * стоимостью покупки

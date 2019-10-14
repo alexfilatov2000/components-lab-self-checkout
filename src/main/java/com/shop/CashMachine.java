@@ -1,5 +1,6 @@
 package com.shop;
 
+import com.exception.DataBaseException;
 import com.exception.PaymentException;
 
 /**
@@ -34,7 +35,12 @@ class BarcodeScanner {
      * @return Артикул (идентификатор)
      * отсканированного товара
      */
-    public Product scan(int id, MainServerConnection msc) {
+    public Product scan(int id, MainServerConnection msc) throws DataBaseException {
+        try {
+            msc.getProduct(id);
+        } catch (DataBaseException e) {
+            e.printStackTrace();
+        }
         return msc.getProduct(id);
     }
 }
@@ -46,8 +52,6 @@ public class CashMachine {
     private MainServerConnection mainServerConnection;
     private Order currentOrder;
 
-    private void pay() throws PaymentException {}
-
     // Public
     public CashMachine() {
         barcodeScanner = new BarcodeScanner();
@@ -55,7 +59,7 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(int id) {
+    public void startOrder(int id) throws DataBaseException {
         currentOrder.addProduct(barcodeScanner.scan(id, mainServerConnection));
     }
 
@@ -70,6 +74,7 @@ public class CashMachine {
             e.printStackTrace();
         }
         //поменять БД
-        currentOrder.getBill();
+        System.out.println(currentOrder.getBill());
+        currentOrder.clearOrder();
     }
 }

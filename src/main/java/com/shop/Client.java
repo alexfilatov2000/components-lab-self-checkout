@@ -1,5 +1,7 @@
 package com.shop;
 
+import com.exception.DataBaseException;
+
 public class Client {
     //Private
     //Public
@@ -17,7 +19,7 @@ public class Client {
         this.clientCash = clientCash;
     }
 
-    public void scan(int id, CashMachine cashMachine) {
+    public void scan(int id, CashMachine cashMachine) throws DataBaseException {
         cashMachine.startOrder(id);
     }
 
