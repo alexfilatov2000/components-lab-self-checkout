@@ -4,7 +4,6 @@ public class Client {
     //Private
     //Public
     private long clientCash;
-    private CashMachine cashMachine;
 
     public Client(long clientCash) {
         this.clientCash=clientCash;
@@ -18,9 +17,9 @@ public class Client {
         this.clientCash = clientCash;
     }
 
-    public void scan(Product product) {
+    public void scan(Product product, CashMachine cashMachine) {
         cashMachine.startOrder(product);
     }
 
-    public void pay(Client client) { cashMachine.endOrder(client); }
+    public void pay(Client client, CashMachine cashMachine) { cashMachine.endOrder(client); }
 }
