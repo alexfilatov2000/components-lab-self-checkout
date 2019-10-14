@@ -120,4 +120,16 @@ public class CashMachine {
     public void fill(Admin admin, Map<Product, Integer> fillProducts) throws AuthException {
         mainServerConnection.fill(fillProducts);
     }
+
+    public void addPaper(Admin admin) {
+        /**
+         * Тут код для добавления бумаги.
+         * Если есть желание можно будет
+         * добавить количество бумаги в текущий
+         * момент, при печати чека уменьшать
+         * это количество а тут добавлять
+         * по-настоящему. Пока эмуляция
+         */
+        System.out.println("Бумага для чеков была добавлена!");
+    }
 }

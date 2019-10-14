@@ -38,7 +38,7 @@ public class Admin {
         }
     }
 
-    public void removeProduct(Admin admin, int id, int amount) {
+    public void removeProduct(int id, int amount) {
         try {
             cashMachine.removeProduct(this, id, amount);
         } catch (AuthException e) {
@@ -46,7 +46,7 @@ public class Admin {
         }
     }
 
-    public void fill(Admin admin, Map<Product, Integer> fillProducts) {
+    public void fill(Map<Product, Integer> fillProducts) {
         try {
             cashMachine.fill(this, fillProducts);
         } catch (AuthException e) {
