@@ -1,8 +1,11 @@
 package com.shop;
 
+import com.exception.AuthException;
 import com.exception.DatabaseException;
 import com.exception.OrderException;
 import com.exception.PaymentException;
+
+import java.util.Map;
 
 /**
  * Тут также прописываем классы
@@ -60,6 +63,7 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
+    // Client methods
     public void startOrder(int id) {
         currentOrder = new Order();
     }
@@ -93,7 +97,27 @@ public class CashMachine {
         currentOrder.addProduct(barcodeScanner.scan(id, mainServerConnection));
     }
 
-    public void accessToAll(Admin admin) {
-        //Треба менюшку замутити тут тіпа можна міняти БД, настроювати апарат міняти бумагу і т.д.
+    // Admin methods
+    public void addProduct(Admin admin, int id, int amount) throws AuthException {
+        if (!admin.isLoggedIn()) {
+            throw new AuthException();
+        }
+        try {
+            mainServerConnection.addProduct(id, amount);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeProduct(Admin admin, int id, int amount) throws AuthException {
+        try {
+            mainServerConnection.removeProduct(id, amount);
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fill(Admin admin, Map<Product, Integer> fillProducts) throws AuthException {
+        mainServerConnection.fill(fillProducts);
     }
 }
