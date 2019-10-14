@@ -4,6 +4,7 @@ public class Client {
     //Private
     //Public
     private long clientCash;
+    private CashMachine cashMachine;
 
     public Client(long clientCash) {
         this.clientCash=clientCash;
@@ -18,6 +19,10 @@ public class Client {
     }
 
     public void scan(Product product) {
-        //CashMachine.startOrder(product);
+        cashMachine.startOrder(product);
+    }
+
+    public void pay(Client client) {
+        cashMachine.endOrder(client);
     }
 }

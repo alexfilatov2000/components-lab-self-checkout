@@ -55,6 +55,15 @@ public class CashMachine {
         mainServerConnection = MainServerConnection.getConnection();
     }
 
-    public void startOrder(Product product) {}
-    public void endOrder() {}
+    public void startOrder(Product product) {
+        currentOrder.addProduct(product);
+    }
+
+    public void endOrder(Client client) {
+        try {
+            paymentSystem.pay(currentOrder, client);
+        } catch (PaymentException e) {
+            e.printStackTrace();
+        }
+    }
 }
